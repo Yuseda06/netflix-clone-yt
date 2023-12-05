@@ -1,52 +1,28 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import React from "react";
-import GithubSignInButton from "@/app/components/GithubSignInButton";
-import GoogleSignInButton from "@/app/components/GoogleSignInButton";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/utils/auth";
-import { redirect } from "next/navigation";
+import Image from "next/image";
+import { ReactNode } from "react";
+import BackgroundImage from "../../public/login_background.jpg";
+import Logo from "../../public/netflix_logo.svg";
 
-async function SignUp() {
-  const session = await getServerSession(authOptions);
-
-  if (session) {
-    return redirect("/home");
-  }
+export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-24 rounded bg-black/80 py-10 px-6 md:mt-0 md:max-w-sm md:px-14">
-      <form>
-        <h1 className="text-3xl font-semibold text-white">Sign Up</h1>
-        <div className="space-y-4 mt-5">
-          <Input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="bg-[#333] placeholder:text-xs placeholder:text-gray-400 w-full inline-block"
-          />
-          <Button
-            type="submit"
-            variant="destructive"
-            className="w-full bg-[#e50914]"
-          >
-            Sign Up
-          </Button>
-        </div>
-      </form>
-      <div className="text-gray-500 text-sm mt-2">
-        Already have an account{" "}
-        <Link className="text-white hover:underline" href="/login">
-          Log in now!
-        </Link>{" "}
-      </div>
+    <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
+      <Image
+        src={BackgroundImage}
+        alt="background image"
+        className="hidden sm:flex sm:object-cover -z-10 brightness-50"
+        priority
+        fill
+      />
 
-      <div className="flex w-full justify-center items-center gap-x-3 mt-6">
-        <GithubSignInButton />
-        <GoogleSignInButton />
-      </div>
+      <Image
+        src={Logo}
+        alt="Logo"
+        width={120}
+        height={120}
+        priority
+        className="absolute left-4 top-4 object-contain md:left-10 md:top-6"
+      />
+      {children}
     </div>
   );
 }
-
-export default SignUp;
