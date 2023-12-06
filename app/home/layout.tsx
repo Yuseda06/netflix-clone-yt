@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import { authOptions } from "../utils/auth";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
+import Navbar from "../components/Navbar";
 
 async function HomeLayout({ children }: { children: ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -9,7 +10,14 @@ async function HomeLayout({ children }: { children: ReactNode }) {
     return redirect("/login");
   }
 
-  return <div>{children}</div>;
+  return (
+    <>
+      <Navbar />
+      <main className="w-full max-w-7xl mx-auto sm:px-6 lg:px-8">
+        {children}
+      </main>
+    </>
+  );
 }
 
 export default HomeLayout;
